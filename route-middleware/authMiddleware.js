@@ -24,5 +24,5 @@ module.exports = async (req, res, next) => {
 }
 
 function validateRole (path, method, user) {
-  return !!PATH_PERMISSIONS.find(permission => permission.path && permission.method === method && permission.roles.indexOf(user.role) > -1)
+  return !!PATH_PERMISSIONS.find(permission => permission.path === path && permission.method === method && permission.roles.indexOf(user.role) > -1)
 }

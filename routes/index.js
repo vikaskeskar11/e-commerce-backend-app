@@ -17,6 +17,10 @@ const routes = [
     route: require('./api/userRoutes')
   },
   {
+    path: '/api/product',
+    route: require('./api/productRoutes')
+  },
+  {
     path: '/healthCheck',
     route: require('./health/healthCheckRoutes')
   }

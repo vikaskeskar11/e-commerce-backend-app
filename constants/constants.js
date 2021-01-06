@@ -29,6 +29,26 @@ module.exports = Object.freeze({
       path: '/user',
       method: 'DELETE',
       roles: ['admin']
+    },
+    {
+      path: '/product',
+      method: 'POST',
+      roles: ['admin', 'user']
+    },
+    {
+      path: '/product',
+      method: 'PUT',
+      roles: ['admin', 'user']
+    },
+    {
+      path: '/product/approve',
+      method: 'POST',
+      roles: ['admin']
+    },
+    {
+      path: '/product',
+      method: 'DELETE',
+      roles: ['admin', 'user']
     }
   ]
 })
