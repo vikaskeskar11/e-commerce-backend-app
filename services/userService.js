@@ -22,12 +22,18 @@ class UserService {
    * @function
    * @name add
    * @param {JSON} data - user data.
+   * @param {JSON} currentUser - logged in user details.
    * @returns {JSON}
    * @description Add user to database.
    * */
-  async add (data) {
+  async add (data, currentUser) {
     logger.debug('UserService:add: Adding new user ', { })
     data.email = data.username
+    if (await this.isUsernameExist(data.username)) {
+      throw new Error('Username is taken')
+    }
+    data.createdBy = currentUser.userId
+    data.modifiedBy = currentUser.userId
     const user = new UserModel(data)
     let res = await (await user.save()).toObject()
     res = omitProperties(res, ['password'])
@@ -39,19 +45,44 @@ class UserService {
    * @function
    * @name updateUserById
    * @param {JSON} options - Options to update user
+   * @param {JSON} currentUser - logged in user details.
    */
-  async update (options) {
+  async update (options, currentUser) {
     logger.debug('UserService:update: Updating user ')
     let userId = options['userId']
     let details = options['details']
     if (!userId) {
       throw new Error('required.userId')
     }
-    const user = await UserModel.findOneAndUpdate({ _id: userId }, details, { new: true })
+    if (!details) {
+      throw new Error('User details are missing to update')
+    }
+    if (details.username) {
+      throw new Error('Username can not be updated')
+    }
+    details.modifiedBy = currentUser.userId
+    let user = await UserModel.findOneAndUpdate({ _id: userId }, details, { new: true }).lean()
     logger.debug('UserService:update: Updated user')
+    user = omitProperties(user, ['password'])
     return user
   }
 
+  /**
+   * @function
+   * @name updateUserById
+   * @param {JSON} options - Options to update user
+   * @param {JSON} currentUser - logged in user details.
+   */
+  async delete (options, currentUser) {
+    logger.debug('UserService:delete: Deleting user ')
+    let userId = options['userId']
+    if (!userId) {
+      throw new Error('required.userId')
+    }
+    const user = await UserModel.findOneAndUpdate({ _id: userId }, { markDelete: true, modifiedBy: currentUser.userId }, { new: true })
+    logger.debug('UserService:delete: Deleted user')
+    return user
+  }
   /**
    * @function
    * @name verifyCredentials

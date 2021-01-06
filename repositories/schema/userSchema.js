@@ -16,7 +16,9 @@ module.exports = new Schema({
   role: { type: String, default: constants.roles.USER },
   markDelete: {
     type: Boolean, default: false
-  }
+  },
+  createdBy: { type: Schema.Types.ObjectId, ref: 'users' },
+  modifiedBy: { type: Schema.Types.ObjectId, ref: 'users' }
 },
 {
   timestamps: {

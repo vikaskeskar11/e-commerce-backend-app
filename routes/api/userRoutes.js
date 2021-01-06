@@ -16,7 +16,7 @@ router.post('/login', async (req, res) => {
 router.post('', async (req, res) => {
   try {
     logger.info('userRoutes ', req.hostname, req.ip, req.path)
-    const user = await userService.add(req.body)
+    const user = await userService.add(req.body, req.user)
     res.send({ status: true, user: user })
   } catch (error) {
     handleError(req, res, error)
@@ -26,7 +26,7 @@ router.post('', async (req, res) => {
 router.put('', async (req, res) => {
   try {
     logger.info('userRoutes ', req.hostname, req.ip, req.path)
-    const user = await userService.updateUserById(req.body)
+    const user = await userService.update(req.body, req.user)
     res.send({ status: true, user: user })
   } catch (error) {
     handleError(req, res, error)
@@ -36,7 +36,7 @@ router.put('', async (req, res) => {
 router.delete('', async (req, res) => {
   try {
     logger.info('userRoutes:delete: ', req.hostname, req.ip, req.path)
-    const user = await userService.updateUserById(req.body)
+    const user = await userService.delete(req.body, req.user)
     res.send({ status: true, user: user })
   } catch (error) {
     handleError(req, res, error)
