@@ -1,0 +1,54 @@
+networks:
+  default:
+    name: net
+secrets:
+  admin-password:
+    file: D:\Vikas\Private\e-commerce-backend-app\deploy\secrets\admin-password.txt
+  admin-username:
+    file: D:\Vikas\Private\e-commerce-backend-app\deploy\secrets\admin-username.txt
+  mongodb-password:
+    file: D:\Vikas\Private\e-commerce-backend-app\deploy\secrets\mongo-password.txt
+  mongodb-username:
+    file: D:\Vikas\Private\e-commerce-backend-app\deploy\secrets\mongo-username.txt
+services:
+  e-commerce-backend-app:
+    depends_on:
+      mongodb:
+        condition: service_started
+    deploy:
+      endpoint_mode: dnsrr
+      replicas: 1
+    environment:
+      NODE_ENV: development
+    image: e-commerce-backend-app:development-latest
+    ports:
+    - published: 3000
+      target: 3080
+    secrets:
+    - source: admin-password
+    - source: admin-username
+    - source: mongodb-password
+    - source: mongodb-username
+  mongodb:
+    command: mongod --auth
+    deploy:
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+        - node.role == worker
+    environment:
+      MONGO_INITDB_ROOT_PASSWORD_FILE: /run/secrets/mongodb-password
+      MONGO_INITDB_ROOT_USERNAME_FILE: /run/secrets/mongodb-username
+    image: mongo:4.0.2
+    ports:
+    - published: 27017
+      target: 27017
+    secrets:
+    - source: mongodb-password
+    - source: mongodb-username
+    volumes:
+    - mongodb-volume:/data/db:rw
+version: '3.7'
+volumes:
+  mongodb-volume: {}
+

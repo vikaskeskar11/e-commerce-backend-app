@@ -1,0 +1,21 @@
+# Nodejs
+node_modules/
+npm-debug.log
+
+# IDE
+/.settings/
+/typings
+
+# Docker 
+*.stack.yml
+
+# Project
+logs/*
+/.tmp
+package-docker.json
+node_modules
+docker-compose.*.deploy.yml
+
+#language cache folder
+public
+.vscode

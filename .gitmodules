@@ -1,0 +1,4 @@
+[submodule "internal-app-deploy"]
+	path = internal-app-deploy
+	url = ../../internal-apps/internal-app-deploy
+	branch = development

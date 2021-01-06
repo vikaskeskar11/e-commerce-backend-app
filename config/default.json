@@ -1,0 +1,23 @@
+{
+    "server": {
+        "httpPort": 3080
+    },
+    "db": {
+        "host": "mongodb",
+        "auth": {
+            "usernameFile": "mongodb-username",
+            "passwordFile": "mongodb-password"
+        },
+        "name": "e-commerce"
+    },
+    "logger": {
+        "level": "info",
+        "logInDatabase": true,
+        "logOnConsole": false
+    },
+    "adminUser": {
+        "usernameFile": "admin-username",
+        "passwordFile": "admin-password"
+    },
+    "JWT_TOKEN_KEY": "nxZZL1oYMry4vlg5wvXqHvjBUKHL67iCnkJpVQNt"
+}
