@@ -1,0 +1,14 @@
+node_modules
+npm-debug.log
+docker-compose*
+.dockerignore
+.git
+.gitignore
+README.md
+LICENSE
+.vscode
+.tmp
+.rsyncignore
+.gitlab-ci.yml
+deploy.sh
+logs/*

@@ -1,0 +1,29 @@
+version: '3.7'
+
+services:
+  e-commerce-backend-app:
+    image: e-commerce-backend-app:development-latest
+    environment:
+      NODE_ENV: development
+    ports:
+      - 3000:3080
+  
+  mongodb:
+    ports:
+      - 27017:27017
+  
+secrets:
+  mongodb-username:
+    file: ./secrets/mongo-username.txt
+
+  mongodb-password:
+    file: ./secrets/mongo-password.txt
+
+  admin-username:
+    file: ./secrets/admin-username.txt
+
+  admin-password:
+    file: ./secrets/admin-password.txt
+
+volumes:
+  mongodb-volume:

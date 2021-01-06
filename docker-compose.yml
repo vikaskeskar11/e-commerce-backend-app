@@ -1,0 +1,11 @@
+version: '3.7'
+
+services:
+  e-commerce-backend-app:
+    build: .
+    ports:
+      - 9229:9229
+      - 35729:35729
+    volumes:
+      - .:/usr/src/app
+    command: sh -c "(ln -sf ../node_modules node_modules && fluentd -c /usr/src/app/fluent.conf &) && (envoy -c envoyproxy-config/envoy.yaml --service-cluster e-commerce-backend-app --log-path /tmp/envoyproxy.log &) && npm run dev:start"
